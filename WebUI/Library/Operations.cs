@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Services.Description;
 using WebUI.Models.Enums;
+using WebUI.Models.Results;
 
 namespace WebUI.Library
 {
@@ -29,15 +30,15 @@ namespace WebUI.Library
             return apiUrl;
         }
 
-        public static string UrlBuild(string baseUrl, string apiFunc,string[] metricKeys, string component)
+        public static string UrlBuild(string baseUrl, string apiFunc,List<MetricKeys> metricKeys, string component)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(baseUrl);
             sb.Append(apiFunc);
-            int keySize = metricKeys.Length;
+            int keySize = metricKeys.Count;
             foreach (var key in metricKeys)
             {
-                sb.Append(key);
+                sb.Append(key.KeyName);
                 if (keySize > 1)
                 {
                     sb.Append(",");

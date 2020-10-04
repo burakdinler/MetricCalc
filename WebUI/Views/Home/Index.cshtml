@@ -1,79 +1,39 @@
-﻿
+﻿@model WebUI.Models.PageModel.HomeModel
 @{
     ViewBag.Title = "Index";
 }
 
 <div class="jumbotron">
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Calculation Parameters</h4>
-        </div>
-        <div class="card-body">
-            Lahmacun
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4 class="card-title text-uppercase">Calculation Parameters</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    <label>Component Name</label>
+                                    @Html.TextBoxFor(m => m.Component, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Query Type</label>
+                                    @Html.EnumDropDownListFor(m => m.UrlType, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-block btn-success">Analyse</button>
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Complexity</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div> 
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Duplications</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div>
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Maintainability</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div> 
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Reliability</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div> 
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Security</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div>  
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Size</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div> 
-    <br />
-    <div class="card shadow">
-        <div class="card-header">
-            <h4 class="card-title text-uppercase">Tests</h4>
-        </div>
-        <div class="card-body">
-
-        </div>
-    </div>
-
 </div>

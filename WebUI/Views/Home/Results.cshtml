@@ -1,0 +1,244 @@
+﻿@model WebUI.Models.Results.ResultModel
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<div class="jumbotron">
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="card-title text-uppercase">Results of @ViewBag.Component</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title">Results</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Lines of Code per Language</th>
+                                        <td>   @Html.DisplayFor(m => m.LinesOfCodePerLanguage)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Analyse Result</th>
+                                        <td>@Html.DisplayFor(m => m.AnalyseResult) </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Complexity - @Html.DisplayFor(m => m.ComplexityResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Complexity</th>
+                                        <td>
+                                            @Html.DisplayFor(m => m.Complexity)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Coginitive Complexity</th>
+                                        <td>
+                                            @Html.DisplayFor(m => m.CognitiveComplexity)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Duplications - @Html.DisplayFor(m => m.DuplactionsResult) </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Duplicated Blocks</th>
+                                        <td>@Html.DisplayFor(m => m.DuplicatedBlocks)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duplicated Files</th>
+                                        <td>@Html.DisplayFor(m => m.DuplicatedFiles)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duplicated Lines</th>
+                                        <td>@Html.DisplayFor(m => m.DuplicatedLines)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duplicated Line Density</th>
+                                        <td> @Html.DisplayFor(m => m.DuplicatedLineDensity)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Maintainability - @Html.DisplayFor(m => m.MaintainabilityResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Code Smells</th>
+                                        <td>@Html.DisplayFor(m => m.CodeSmells)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Maintainability Rating</th>
+                                        <td> @Html.DisplayFor(m => m.MaintainabilityRating)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Technical Debt</th>
+                                        <td> @Html.DisplayFor(m => m.TechnicalDebt)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Technical Debt Ratio</th>
+                                        <td> @Html.DisplayFor(m => m.TechnicalDebtRatio)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Reliability - @Html.DisplayFor(m => m.ReliabilityResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Bugs</th>
+                                        <td> @Html.DisplayFor(m => m.Bugs)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Reliability Rating</th>
+                                        <td>@Html.DisplayFor(m => m.ReliabilityRating)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Reliability Remedation Effort</th>
+                                        <td> @Html.DisplayFor(m => m.ReliabilityRmediationEffort)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-3">
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Security - @Html.DisplayFor(m => m.SecurityResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Vulnerabilities</th>
+                                        <td>@Html.DisplayFor(m => m.Vulnerabilities)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Security Rating</th>
+                                        <td>@Html.DisplayFor(m => m.SecurityRating)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Security Remedation Effort</th>
+                                        <td>@Html.DisplayFor(m => m.SecurityRemediationEffort)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Security Hotspots</th>
+                                        <td>@Html.DisplayFor(m => m.SecurityHotspots)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Security Review Rating</th>
+                                        <td>@Html.DisplayFor(m => m.SecurityReviewRating)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Size - @Html.DisplayFor(m => m.SizeResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr><th>Classes</th><td>@Html.DisplayFor(m => m.Classes)</td></tr>
+                                    <tr><th>Comment Lines</th><td>@Html.DisplayFor(m => m.CommentLines)</td></tr>
+                                    <tr><th>Comment Density</th><td>@Html.DisplayFor(m => m.CommentDensity)</td></tr>
+                                    <tr><th>Files</th><td>@Html.DisplayFor(m => m.Files)</td></tr>
+                                    <tr><th>Lines</th><td>@Html.DisplayFor(m => m.Lines)</td></tr>
+                                    <tr><th>Lines of Code</th><td>@Html.DisplayFor(m => m.LinesOfCode)</td></tr>
+                                    <tr><th>Functions</th><td>@Html.DisplayFor(m => m.Functions)</td></tr>
+                                    <tr><th>Statements</th><td>@Html.DisplayFor(m => m.Statements)</td></tr>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Tests - @Html.DisplayFor(m => m.TestsResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Unit Test Success Density</th>
+                                        <td>@Html.DisplayFor(m => m.UnitTestSuccessDensity)</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Issues - @Html.DisplayFor(m => m.IssuesResult)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr><th>Issues</th><td>@Html.DisplayFor(m => m.Issues)</td></tr>
+                                    <tr><th>Blocker Issues</th><td>@Html.DisplayFor(m => m.BlockerIssues)</td></tr>
+                                    <tr><th>Critical Issues</th><td>@Html.DisplayFor(m => m.CriticalIssues)</td></tr>
+                                    <tr><th>Major Issues</th><td>@Html.DisplayFor(m => m.MajorIssues)</td></tr>
+                                    <tr><th>Minor Issues</th><td>@Html.DisplayFor(m => m.MinorIssues)</td></tr>
+                                    <tr><th>Info Issues</th><td>@Html.DisplayFor(m => m.InfoIssues)</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

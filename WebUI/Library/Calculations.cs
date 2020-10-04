@@ -1,260 +1,164 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.IO;
+using System.Web.Mvc.Html;
+using WebUI.Models.Enums;
+using WebUI.Models.Responses;
+using WebUI.Models.Results;
 
 namespace WebUI.Library
 {
     public static class Calculations
     {
-        #region Complexity
-        public static int Complexity()
+        #region CallOperations
+        public static string ApiURL(string component, UrlType urlType)
         {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
+            string apiUrl = Operations.ApiUrl(urlType);
             string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "complexity" };
-            string component = "hahanov_hahanov.github.io";
+            List<MetricKeys> metricKeys = new KeyRepository().MetricKeys();
 
             string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static int CognitiveComplexity()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "cognitive_complexity" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
+            return url;
         }
         #endregion
 
-        #region Duplications
-        public static int DuplicatedFiles()
+        #region ApiResultCaller
+        public static ResultModel ApiResults(string component, UrlType urlType)
         {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "duplicated_files" };
-            string component = "hahanov_hahanov.github.io";
+            string apiURL = ApiURL(component,urlType);
 
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
+            var response = Operations.webResponse(Operations.webRequest(apiURL)).GetResponseStream();
+            StreamReader reader = new StreamReader(response);
 
-            return 0;
-        }
-        public static int DuplicatedBlocks()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "duplicated_blocks" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static decimal DuplicatedLineDensity()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "duplicated_lines_density" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0m;
+            var jResult = JsonConvert.DeserializeObject<RootObject>(reader.ReadToEnd().ToString()).component.measures;
+            ResultModel result = new ResultModel();
+            foreach (var item in jResult)
+            {
+                switch (item.metric)
+                {
+                    case "complexity":
+                        result.Complexity = convertVal(item.value);
+                        break;
+                    case "cognitive_complexity":
+                        result.CognitiveComplexity = convertVal(item.value);
+                        break;
+                    case "duplicated_blocks":
+                        result.DuplicatedBlocks = convertVal(item.value);
+                        break;
+                    case "duplicated_files":
+                        result.DuplicatedFiles = convertVal(item.value);
+                        break;
+                    case "duplicated_lines":
+                        result.DuplicatedLines = convertVal(item.value);
+                        break;
+                    case "duplicated_lines_density":
+                        result.DuplicatedLineDensity = convertVal(item.value);
+                        break;
+                    case "violations":
+                        result.Issues = convertVal(item.value);
+                        break;
+                    case "blocker_violations":
+                        result.BlockerIssues = convertVal(item.value);
+                        break;
+                    case "critical_violations":
+                        result.CriticalIssues = convertVal(item.value);
+                        break;
+                    case "major_violations":
+                        result.MajorIssues = convertVal(item.value);
+                        break;
+                    case "minor_violations":
+                        result.MinorIssues = convertVal(item.value);
+                        break;
+                    case "info_violations":
+                        result.InfoIssues = convertVal(item.value);
+                        break;
+                    case "code_smells":
+                        result.CodeSmells = convertVal(item.value);
+                        break;
+                    case "sqale_rating":
+                        result.MaintainabilityRating = convertVal(item.value);
+                        break;
+                    case "sqale_index":
+                        result.TechnicalDebt = convertVal(item.value);
+                        break;
+                    case "sqale_debt_ratio":
+                        result.TechnicalDebtRatio = convertVal(item.value);
+                        break;
+                    case "alert_status":
+                        result.QualityGateStatus = convertVal(item.value);
+                        break;
+                    case "bugs":
+                        result.Bugs = convertVal(item.value);
+                        break;
+                    case "new_bugs":
+                        result.NewBugs = convertVal(item.value);
+                        break;
+                    case "reliability_rating":
+                        result.ReliabilityRating = convertVal(item.value);
+                        break;
+                    case "reliability_remediation_effort":
+                        result.ReliabilityRmediationEffort = convertVal(item.value);
+                        break;
+                    case "vulnerabilities":
+                        result.Vulnerabilities = convertVal(item.value);
+                        break;
+                    case "security_rating":
+                        result.SecurityRating = convertVal(item.value);
+                        break;
+                    case "security_remediation_effort":
+                        result.SecurityRemediationEffort = convertVal(item.value);
+                        break;
+                    case "security_hotspots":
+                        result.SecurityHotspots = convertVal(item.value);
+                        break;
+                    case "security_review_rating":
+                        result.SecurityReviewRating = convertVal(item.value);
+                        break;
+                    case "classes":
+                        result.Classes = convertVal(item.value);
+                        break;
+                    case "comment_lines":
+                        result.CommentLines = convertVal(item.value);
+                        break;
+                    case "comment_lines_density":
+                        result.CommentDensity = convertVal(item.value);
+                        break;
+                    case "files":
+                        result.Files = convertVal(item.value);
+                        break;
+                    case "lines":
+                        result.Lines = convertVal(item.value);
+                        break;
+                    case "ncloc":
+                        result.LinesOfCode = convertVal(item.value);
+                        break;
+                    case "ncloc_language_distribution":
+                        result.LinesOfCodePerLanguage = item.value;
+                        break;
+                    case "functions":
+                        result.Functions = convertVal(item.value);
+                        break;
+                    case "statements":
+                        result.Statements = convertVal(item.value);
+                        break;
+                    case "test_success_density":
+                        result.UnitTestSuccessDensity = convertVal(item.value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
         }
         #endregion
 
-        #region Maintainability
-        public static int CodeSmells()
+        public static decimal convertVal(string str)
         {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "code_smells" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
+            decimal value = 0m;
+            str = str.Replace(".", ",");
+            decimal.TryParse(str, out value);
+            return value;
         }
-
-        public static decimal MaintainabilityRating()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "sqale_rating" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0m;
-        }
-
-        public static decimal TechnicalDebtRatio()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "sqale_debt_ratio" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0m;
-        }
-
-
-        #endregion
-
-        #region Reliability
-        public static int Bugs()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "bugs" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static int ReliabilityRating()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "reliability_rating" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        #endregion
-
-        #region Security
-
-        public static int Vulnerabilities()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "vulnerabilities" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static decimal SecurityRating()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "security_rating" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static int SecurityHotspots()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "security_hotspots" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-        public static decimal SecurityReviewRating()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "security_review_rating" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        #endregion
-
-        #region Size
-
-        public static int Classes()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "classes" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static decimal CommentDensity()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "comment_lines_density" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        public static int LinesOfCode()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "ncloc" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        #endregion
-
-        #region Tests
-
-        public static int Coverage()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "coverage" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-
-        }
-        
-        public static decimal UnitTestSuccessDensity()
-        {
-            string apiUrl = Operations.ApiUrl(Models.Enums.UrlType.CLOUD);
-            string apiFunc = "/measures/component?metricKeys=";
-            string[] metricKeys = { "test_success_density" };
-            string component = "hahanov_hahanov.github.io";
-
-            string url = Operations.UrlBuild(apiUrl, apiFunc, metricKeys, component);
-
-            return 0;
-        }
-
-        #endregion
     }
 }

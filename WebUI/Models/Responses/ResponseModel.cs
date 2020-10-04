@@ -11,6 +11,6 @@ namespace WebUI.Models.Responses
         public string key { get; set; }
         public string name { get; set; }
         public string qualifier { get; set; }
-        public Measures measures { get; set; }
+        public List<Measures> measures { get; set; }
     }
 }

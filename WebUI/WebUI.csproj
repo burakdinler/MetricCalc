@@ -110,11 +110,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Library\Calculations.cs" />
+    <Compile Include="Library\KeyRepository.cs" />
     <Compile Include="Library\Operations.cs" />
     <Compile Include="Models\Enums\UrlType.cs" />
+    <Compile Include="Models\PageModel\HomeModel.cs" />
     <Compile Include="Models\Responses\Measures.cs" />
     <Compile Include="Models\Responses\ResponseModel.cs" />
     <Compile Include="Models\Responses\RootObject.cs" />
+    <Compile Include="Models\Results\MetricKeys.cs" />
+    <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +127,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
